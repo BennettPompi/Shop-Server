@@ -31,7 +31,8 @@ export class CartManager{
             return true;
         }
         else
-            (this.userCartsDB.get(userID) as Item[]).push(item);
+            arr.push(item);
+        this.userCartsDB.set(userID, arr);
         return true;
     }
     public backup(): void {

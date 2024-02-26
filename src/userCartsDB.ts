@@ -1,6 +1,7 @@
 import '../data/carts.json';
 import fs from 'fs';
 export interface Item {
+    id:number;
     title: string;
     imgLink: string;
     quantity: number,
@@ -23,6 +24,9 @@ export class CartManager{
     }
     public backup(): void {
         fs.writeFileSync('data/carts.json', JSON.stringify(Object.fromEntries(this.userCartsDB)));
+    }
+    public getCart(userID: string): Item[] | undefined{
+        return this.userCartsDB.get(userID);
     }
     public removeFromCart(userID: string, itemTitle: string): boolean{
         if(! (this.userCartsDB.has(userID))){

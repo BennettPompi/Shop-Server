@@ -34,6 +34,16 @@ app.post('/addToCart', (req: Request, res: Response) => {
         res.status(400).json({message: 'Something went wrong'});
     }
 });
+app.post('/getCart', (req: Request, res: Response) => {
+    const user: {username: string} = req.body;
+    const cart = cartManager.getCart(user.username);
+    if (cart) {
+        res.status(200).json(cart);
+    }
+    else {
+        res.status(400).json({message: 'Something went wrong'});
+    }
+});
 app.post('/removeFromCart', (req: Request, res: Response) => {
     const cartReq: removeCartReq = req.body;
     if (cartManager.removeFromCart(cartReq.username, cartReq.itemTitle)) {

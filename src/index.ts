@@ -45,7 +45,7 @@ app.post('/getCart', (req: Request, res: Response) => {
 });
 app.post('/removeFromCart', (req: Request, res: Response) => {
     const cartReq: removeCartReq = req.body;
-    if (cartManager.removeFromCart(cartReq.username, cartReq.itemTitle)) {
+    if (cartManager.removeFromCart(cartReq.username, cartReq.id)) {
         res.status(200).json({message: 'Removed from cart successfully'});
     }
     else {

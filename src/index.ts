@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import {User, LoginManager} from './passwordDB'
 import { CartManager, addCartReq, removeCartReq } from './userCartsDB'
+
 dotenv.config();
 const app: Express = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,10 @@ const cartManager = new CartManager();
 app.use(express.json());
 app.options('*', cors());
 app.use(cors());
+
+// Serve static front end from the specified directory
+app.use(express.static(process.env.STATIC_ROOT!));
+
 app.post('/backup', (req: Request, res: Response) => {
     const user: {username: string} = req.body;
     if (user.username === 'admin') {

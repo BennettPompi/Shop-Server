@@ -19,10 +19,15 @@ export class CartManager{
         if(!this.userCartsDB.has(userID)){
             this.userCartsDB.set(userID, []);
         }
-        const userCart: Item[] = this.userCartsDB.get(userID) as Item[];
-        const itemIndex = userCart.findIndex((cartItem: Item) => cartItem.id === item.id);
+        const userCart = this.userCartsDB.get(userID);
+        let arr:Item[] = []; 
+        if (userCart !== undefined){
+            arr = Object.values(userCart);
+        }
+        
+        const itemIndex = arr.findIndex((cartItem: Item) => cartItem.id === item.id);
         if(itemIndex !== -1){
-            userCart[itemIndex].quantity += 1;
+            arr[itemIndex].quantity += 1;
             return true;
         }
         else

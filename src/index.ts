@@ -1,3 +1,4 @@
+//handles requests from client and interacts with the database using RESTful API
 import express, {Express, Request, Response} from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'

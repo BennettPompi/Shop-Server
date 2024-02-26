@@ -22,7 +22,7 @@ export class LoginManager{
             return false;
         }
         this.passwordDB.set(username, password);
-        const newUser:User = {username: username, password: password};
+        
         return true;
     }
     

@@ -11,9 +11,8 @@ const loginManager = new LoginManager();
 const cartManager = new CartManager();
 
 app.use(express.json());
-app.use(cors({preflightContinue: true, origin: '*'}));
 app.options('*', cors());
-
+app.use(cors());
 app.post('/backup', (req: Request, res: Response) => {
     const user: {username: string} = req.body;
     if (user.username === 'admin') {

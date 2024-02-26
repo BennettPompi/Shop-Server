@@ -8,7 +8,7 @@ export interface Item {
     price: number
 };
 export interface addCartReq {username: string; item: Item};
-export interface removeCartReq {username: string; itemTitle: string};
+export interface removeCartReq {username: string; id: number};
 export class CartManager{
     userCartsDB: Map<string, Item[]> 
     constructor(){ 
@@ -19,21 +19,31 @@ export class CartManager{
         if(!this.userCartsDB.has(userID)){
             this.userCartsDB.set(userID, []);
         }
-        (this.userCartsDB.get(userID) as Item[]).push(item);
+        const userCart: Item[] = this.userCartsDB.get(userID) as Item[];
+        const itemIndex = userCart.findIndex((cartItem: Item) => cartItem.id === item.id);
+        if(itemIndex !== -1){
+            userCart[itemIndex].quantity += 1;
+            return true;
+        }
+        else
+            (this.userCartsDB.get(userID) as Item[]).push(item);
         return true;
     }
     public backup(): void {
         fs.writeFileSync('data/carts.json', JSON.stringify(Object.fromEntries(this.userCartsDB)));
     }
     public getCart(userID: string): Item[] | undefined{
-        return this.userCartsDB.get(userID);
+        if (this.userCartsDB.has(userID))
+            return this.userCartsDB.get(userID) as Item[];
+        else
+            return [];
     }
-    public removeFromCart(userID: string, itemTitle: string): boolean{
+    public removeFromCart(userID: string, id: number): boolean{
         if(! (this.userCartsDB.has(userID))){
             return false;
         }
         const userCart: Item[] = this.userCartsDB.get(userID) as Item[];
-        const itemIndex = userCart.findIndex((item: Item) => item.title === itemTitle);
+        const itemIndex = userCart.findIndex((cartItem: Item) => cartItem.id === id);
         if(itemIndex === -1){
             return false;
         }
